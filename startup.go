@@ -25,6 +25,7 @@ func NewGinStartup() *ginStartup {
 	g.engine = gin.New()
 	g.enableFastCgi = false
 	g.enableHttp = false
+	return g
 }
 
 func (this *ginStartup) EnableFastCgi(bind string) {
@@ -59,7 +60,7 @@ func (this *ginStartup) Start() error {
 			log.Println("[Fastcgi] starting fastcgi on ", this.fastCgiBind)
 			err = fcgi.Serve(listener, this.engine)
 			if err != nil {
-				log.Println("[Fastcgi] serve fastcgi error. " + err)
+				log.Println("[Fastcgi] serve fastcgi error. " + err.Error())
 			}
 		}()
 	}
