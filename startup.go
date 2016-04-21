@@ -1,4 +1,4 @@
-package gin_startup
+package gin_startup // "import.moetang.info/go/lib/gin-startup"
 
 import (
 	"log"
