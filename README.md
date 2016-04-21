@@ -1,1 +1,1 @@
-# gin-scaffold
+# gin-startup
