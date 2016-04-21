@@ -47,7 +47,7 @@ func (this *ginStartup) Start() error {
 		go func() {
 			u, err := url.Parse(this.fastCgiBind)
 			if err != nil {
-				return
+				panic(err)
 			}
 			addr, err := net.ResolveTCPAddr("tcp", u.Host)
 			if err != nil {
@@ -66,9 +66,12 @@ func (this *ginStartup) Start() error {
 	}
 	if this.enableHttp {
 		go func() {
-			var err error = nil
+			u, err := url.Parse(this.httpBind)
+			if err != nil {
+				panic(err)
+			}
 			if gin.IsDebugging() {
-				log.Printf("[GIN-debug] Listening and serving HTTP on %s\n", this.httpBind)
+				log.Printf("[GIN-debug] Listening and serving HTTP on %s\n", u.Host)
 			}
 			defer func() {
 				if err != nil && gin.IsDebugging() {
@@ -77,7 +80,7 @@ func (this *ginStartup) Start() error {
 			}()
 
 			server := &http.Server{
-				Addr:    this.httpBind,
+				Addr:    u.Host,
 				Handler: this.engine,
 			}
 
